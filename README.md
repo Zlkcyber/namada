@@ -109,3 +109,76 @@ sudo systemctl enable namadad
 ```
 Now you can manage the node through systemd commands:
 Run the node
+
+```bash
+sudo systemctl start namadad
+```
+Stop the node
+```bash
+sudo systemctl stop namadad
+```
+Restart the node
+```bash
+sudo systemctl restart namadad
+```
+Show node logs
+```bash
+sudo journalctl -u namadad -f -o cat
+```
+
+## Using a wallet from the namada extension
+
+### Initializing a new validator account
+The user must first generate a key pair for their validator account.
+```bash
+KEY_ALIAS="aliace"
+namada wallet key gen --alias $KEY_ALIAS
+```
+Now choose a name for your validator:
+```bash
+export VALIDATOR_ALIAS="<your-validator-name>"
+export EMAIL="<your-validator-email-for-communication>"
+```
+
+### Request tokens from faucet
+Go to `<faucet url>` and input address
+
+### Initiate Validator 
+
+A validator account requires additional keys compared to a user account, so start by initializing a validator account:
+```bash
+namada client init-validator \
+  --alias $VALIDATOR_ALIAS \  
+  --account-keys $KEY_ALIAS \  
+  --signing-keys $KEY_ALIAS \  
+  --commission-rate <enter-your-commission-rate> \  
+  --max-commission-rate-change <enter-decimal-rate> \  
+  --email $EMAIL
+```
+It is also possible to convert an established account to a validator account:
+```bash
+namada client become-validator \  
+--address $ESTABLISHED_ACCOUNT_ADDRESS \  
+--signing-keys $KEY_ALIAS \  
+--commission-rate <enter-your-commission-rate> \  
+--max-commission-rate-change <enter-decimal-rate> \  
+--email $EMAIL
+```
+The validator account will now have the same alias as the established account.
+When initializing a validator account, it is also mandatory to specify both the commission-rate charged by the validator for delegation rewards (in decimal format) as well as the maximum-commission-rate-change per epoch in the commission-rate. Both are expressed as a decimal between 0 and 1. The standard for mainnet will be set by social consensus, but for testnets, the standard has been 0.01 and 0.05, respectively.
+This command will generate the keys required for running a validator:
+- Consensus key, which is used in `<consensus key usage>`.
+- Validator account key for signing transactions on the validator account, such as token self-bonding, unbonding and withdrawal, validator keys, validity predicate, state and metadata updates.
+
+Then, it submits a transaction to the ledger that generates the new validator account with established address, which can be used to receive new delegations.
+The keys and the alias of the address will be saved in your wallet.
+
+### Bond tokens to your validator
+
+```bash
+namada client bond \
+ --source "${KEY_NAME}" \
+ --validator "${VAL_NAME}" \
+ --amount 1000
+```
+
