@@ -10,7 +10,7 @@ export ALIAS="<ENTER YOU ALIAS HERE>"
 ## download namada installation scripts
 
 ```
-wget https://github.com/Zlkcyber/namada/auto/install.sh
+wget https://raw.githubusercontent.com/Zlkcyber/namada/main/auto/install.sh
 ```
 
 ## make it executable and run it
