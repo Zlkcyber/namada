@@ -92,7 +92,7 @@ Environment="NAMADA_CMT_STDOUT=true"
 Environment="NAMADA_LOG_COLOR=true"
 Environment="NAMADA_LOG_FMT=pretty"
 Environment="NAMADA_LOG_ROLLING=daily"
-Environment="CHAIN_ID=public-testnet-15.0dacadb8d663"
+Environment="CHAIN_ID="shielded-expedition.b40d8e9055"
 Environment="VALIDATOR_ALIAS=VALIDATOR_ALIAS"
 StandardOutput=syslog
 StandardError=syslog
